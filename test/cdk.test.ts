@@ -1,6 +1,6 @@
 import { Template } from 'aws-cdk-lib/assertions';
 import * as cdk from 'aws-cdk-lib';
-import { CdkStack } from '../lib/cdk-stack';
+import { CdkStack } from '../lib/sc-proxy-stack';
 
 test('Validate stack resources', () => {
   const app = new cdk.App();
