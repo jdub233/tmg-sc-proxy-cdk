@@ -35,14 +35,14 @@ server {
         
         proxy_cache_valid 200 100d;
         proxy_cache_valid 404 10m;
-        proxy_pass http://tmg-data.media.mit.edu:8020/SuperContainer/RawData;
+        proxy_pass ${PUBLISH_ENDPOINT};
     }
 
     # Proxy for SuperContainer editing interface, no caching
     location /SuperContainer {
         add_header 'Cache-Control' 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
         expires off;
-        proxy_pass http://tmg-data.media.mit.edu:8020/SuperContainer;
+        proxy_pass ${EDIT_ENDPOINT};
     }
 
 

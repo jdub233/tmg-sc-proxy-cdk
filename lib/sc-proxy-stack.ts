@@ -12,7 +12,13 @@ config();
 import path = require('path');
 
 // Optional ACM certificate paramters, if a cert is specified it will be used to create an HTTPS listener.
-const { CERT_ID: certID = '', CERT_ARN: certArn = '' } = process.env;
+// Also set the proxy targets from the environment.
+const {
+  CERT_ID: certID = '', 
+  CERT_ARN: certArn = '',
+  PUBLISH_ENDPOINT: publishEndpoint = '',
+  EDIT_ENDPOINT: editEndpoint = '',
+} = process.env;
 
 export class ScProxyStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -46,6 +52,8 @@ export class ScProxyStack extends Stack {
         image: ecs.ContainerImage.fromAsset(path.join(__dirname, '../src/')),
         environment: {
           "name": "Serverless Fargate",
+          'PUBLISH_ENDPOINT': publishEndpoint,
+          'EDIT_ENDPOINT': editEndpoint,
         },
       },
       ...certArn && {protocol: elbv2.ApplicationProtocol.HTTPS},
