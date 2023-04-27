@@ -19,7 +19,18 @@ export class ScProxyStack extends Stack {
     super(scope, id, props);
 
     const vpc = new ec2.Vpc(this, 'SuperContainerProxyVpc', {
-      maxAzs: 2
+      maxAzs: 2,
+      natGateways: 0,
+      enableDnsHostnames: true,
+      enableDnsSupport: true,
+      subnetConfiguration: [
+        {
+          name: 'SCProxySubnet',
+          subnetType: ec2.SubnetType.PUBLIC,
+          mapPublicIpOnLaunch: true,
+          cidrMask: 24,
+        }
+      ],
     });
 
     const cluster = new ecs.Cluster(this, 'SuperContainerProxyCluster', {
@@ -30,6 +41,7 @@ export class ScProxyStack extends Stack {
       cluster: cluster,
       cpu: 256,
       desiredCount: 1,
+      assignPublicIp: true,
       taskImageOptions: {
         image: ecs.ContainerImage.fromAsset(path.join(__dirname, '../src/')),
         environment: {
