@@ -18,6 +18,7 @@ const {
   CERT_ARN: certArn = '',
   PUBLISH_ENDPOINT: publishEndpoint = '',
   EDIT_ENDPOINT: editEndpoint = '',
+  SC_BASIC_AUTH: scBasicAuth = '',
 } = process.env;
 
 export class ScProxyStack extends Stack {
@@ -54,6 +55,7 @@ export class ScProxyStack extends Stack {
           "name": "Serverless Fargate",
           'PUBLISH_ENDPOINT': publishEndpoint,
           'EDIT_ENDPOINT': editEndpoint,
+          'SC_BASIC_AUTH': scBasicAuth,
         },
       },
       ...certArn && {protocol: elbv2.ApplicationProtocol.HTTPS},

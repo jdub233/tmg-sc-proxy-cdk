@@ -29,6 +29,8 @@ server {
         proxy_set_header Cache-Control "";
         proxy_set_header X-SuperContainer-Version "";
 
+        proxy_set_header Authorization "Basic ${SC_BASIC_AUTH}";
+
         # add_header Cache-Control "public";
         proxy_cache_lock on;
         proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
@@ -41,6 +43,7 @@ server {
     # Proxy for SuperContainer editing interface, no caching
     location /SuperContainer {
         add_header 'Cache-Control' 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+        proxy_set_header Authorization "Basic ${SC_BASIC_AUTH}";
         expires off;
         proxy_pass ${EDIT_ENDPOINT};
     }
