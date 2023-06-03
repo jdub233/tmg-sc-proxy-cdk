@@ -2,6 +2,8 @@
 
 This is a CDK to spin up a low-cost Fargate cluster to run a simple nginx proxy container.
 
+The container source is in the `src` directory.
+
 
 ## Useful commands
 
